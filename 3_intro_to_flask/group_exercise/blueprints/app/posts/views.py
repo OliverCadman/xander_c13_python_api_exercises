@@ -1,13 +1,12 @@
-from flask import Blueprint, request
+"""
+A blueprint view for 'posts' resource.
 
+Flask blueprints allow us to create a more modular Flask project, 
+where each resource is placed in its own file. This is a better alternative
+to having all views in a single file, as modularity promotes SOC and good
+code organisation.
+"""
 
-post_blueprint = Blueprint("posts", __name__)
-
-
-@post_blueprint.route("/api/posts", methods=["GET", "POST"])
-def user_group():
+def post_group():
     """GET a list of posts or POST a single post."""
-    if request.method == "GET":
-        return "Getting users!"
-    else:
-        return "Posting user!"
+    pass
