@@ -1,39 +1,8 @@
 import csv
 
 data = []
-
-
-def perform_aggregation(keys, data, converter):
-    """
-    Performs a general calculation based on input data.
-    :return: Dictionary containing key, and aggregation as value.
-    """
-
-    output = {}
-
-    for row in data:
-        product = row[keys[0]]
-        aggregated_data = row[keys[1]]
-        output[product] = output.get(product, 0) + converter(aggregated_data)
-
-        if "sales" in keys:
-            output[product] = round(output[product], 2)
-
-    return output
-
-
-def write_to_csv(path, data, headers):
-    """Write data to CSV"""
-
-    if not path:
-        return None
-
-    with open(path, "w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(headers)
-        for key, value in data.items():
-            writer.writerow([key, value])
-
+total_sales = {}
+total_revenue = {}
 
 if __name__ == "__main__":
 
@@ -43,11 +12,28 @@ if __name__ == "__main__":
         for row in reader:
             data.append(row)
 
-    amount_sales_per_product_type = perform_aggregation(["product_line", "quantity_ordered"], data, int)
-    print(amount_sales_per_product_type)
+    # Calculate total quantity of sales
+    for row in data:
+        product = row["product_line"]
+        quantity_sales = row["quantity_ordered"]
+        total_sales[product] = total_sales.get(product, 0) + int(quantity_sales)
 
-    amount_revenue_per_product_type = perform_aggregation(["product_line", "sales"], data, float)
-    print(amount_revenue_per_product_type)
+    # Calculate total revenue per product
+    for row in data:
+        product = row["product_line"]
+        revenue = row["sales"]
+        total_revenue[product] = total_revenue.get(product, 0) + float(revenue)
+        total_revenue[product] = round(total_revenue[product], 2)
 
-    write_to_csv("./sales_per_product.csv", amount_sales_per_product_type, ["Product Type", "Amount Sales"])
-    write_to_csv("./revenue_per_product.csv", amount_revenue_per_product_type, ["Product Type", "Amount Revenue"])
+    # Write to CSV
+    with open("./amount_sales_per_product.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Product", "Amount of Sales"])
+        for product, sales in total_sales.items():
+            writer.writerow([product, sales])
+
+    with open("./amount_revenue_per_product.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Product", "Amount of Revenue"])
+        for product, sales in total_revenue.items():
+            writer.writerow([product, sales])
