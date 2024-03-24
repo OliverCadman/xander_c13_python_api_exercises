@@ -1,10 +1,8 @@
-from app.models.post import Post
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+"""
+Import your Post model and SQLAlchemyAutoSchema from marshmallow_sqlalchemy
+"""
 
 
-class PostSchema(SQLAlchemyAutoSchema):
+class PostSchema():
     """Serializable schema for the Post model."""
-
-    class Meta:
-        model = Post
-        fields = ("id", "user_id", "title", "body")
+    pass

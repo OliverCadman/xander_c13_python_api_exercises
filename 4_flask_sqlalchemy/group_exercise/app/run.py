@@ -1,8 +1,10 @@
-from .factory import create_app
+"""
+Import your flask factory here and assign the invocation of the application
+to a variable.
 
-
-app = create_app()
+Then, run it in the main namespace.
+"""
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    pass

@@ -1,3 +1,5 @@
-from flask_marshmallow import Marshmallow
+"""
+Import Marshmallow object.
 
-ma = Marshmallow()
+Create instance of Marshmallow and assign to variable to be used in the project.
+"""

@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 from app.database import db
 from app.models.post import Post
 from app.models.user import User
-from app.schemas.post_schema import PostSchema
 
 
 post_blueprint = Blueprint("post", __name__)
@@ -19,14 +18,9 @@ def post_list():
             return jsonify(msg=error_msg, status=200), 200
 
         # TODO: Replace with schema dump and return JSON.
-        schema = PostSchema(many=True)
-        data = schema.dump(posts)
+        print(posts)
 
-        return jsonify(
-            data=data,
-            status=200
-        ), 200
-
+        return "Retrieved posts", 200
     else:
         data = request.json
 
@@ -57,18 +51,16 @@ def post_list():
 def get_single_post(post_id):
     """Return a single user from JSON Placeholder API."""
 
-    post = db.session.query(Post).filter_by(id=post_id).first()
-    if not post:
+    user = db.session.query(Post).filter_by(id=post_id).first()
+    if not user:
         error_msg = "User not found. Try a different ID."
         return jsonify(msg=error_msg, status=200), 200
 
     # TODO: Replace with schema dump and return as JSON.
-    schema = PostSchema(many=False)
-    data = schema.dump(post)
-    return jsonify(
-        data=data,
-        status=200,
-    ), 200
+    print(user)
+    success_msg = f"Post with id {post_id} retrieved."
+
+    return success_msg, 200
 
 
 @post_blueprint.route("/api/post/<int:post_id>", methods=["PATCH"])
@@ -77,28 +69,24 @@ def post_partial_update(post_id):
 
     data = request.json
 
-    post = db.session.query(Post).filter_by(id=post_id).first()
-    if not post:
+    user = db.session.query(User).filter_by(id=post_id).first()
+    if not user:
         error_msg = "User does not exist. Try a different ID."
         return jsonify(msg=error_msg, status=400), 400
 
     try:
         for key, value in data.items():
-            if not hasattr(post, key):
+            if not hasattr(user, key):
                 raise ValueError
             else:
-                setattr(post, key, value)
+                setattr(user, key, value)
                 db.session.commit()
 
-        updated_post = db.session.query(User).filter_by(id=post_id).first()
+        user = db.session.query(User).filter_by(id=post_id).first()
 
-        schema = PostSchema(many=False)
-        schema.dump(updated_post)
-
-        return jsonify(
-            data=updated_post,
-            status=200
-        )
+        # TODO: Replace with schema dump and return as JSON.
+        success_msg = f"Post with ID {user.id} updated."
+        return success_msg, 200
 
     except ValueError:
         error_msg = "Error referencing columns with provided keys." \

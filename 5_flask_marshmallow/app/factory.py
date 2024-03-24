@@ -1,6 +1,6 @@
 from flask import Flask
 from .database import db
-from .serializer import ma
+"""Import Marshmallow object from serializer.py"""
 from .views.user import user_blueprint
 from .views.post import post_blueprint
 
@@ -10,10 +10,10 @@ def create_app():
 
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:password@localhost/flask_sqlalchemy"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "" # Populate as required.
 
     db.init_app(app)
-    ma.init_app(app)
+    # Initialize your Marshmallow object (ma.init_app())
 
     with app.app_context():
         db.create_all()

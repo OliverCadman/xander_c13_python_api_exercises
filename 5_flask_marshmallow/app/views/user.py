@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.user import User
 from app.database import db
-from app.schemas.user_schema import UserSchema
 
 
 user_blueprint = Blueprint("user", __name__)
@@ -17,13 +16,10 @@ def user_list():
             error_msg = "No results."
             return jsonify(msg=error_msg, status=200), 200
 
-        schema = UserSchema(many=True)
-        data = schema.dump(users)
+        # TODO: Replace with schema dump and return JSON.
+        print(users)
 
-        return jsonify(
-            data=data,
-            status=200
-        ), 200
+        return "Retrieved users", 200
 
     else:
 
@@ -69,13 +65,11 @@ def get_single_user(user_id):
         error_msg = "User not found. Try a different ID."
         return jsonify(msg=error_msg, status=200), 200
 
-    schema = UserSchema(many=False)
-    data = schema.dump(user)
+    # TODO: Replace with schema dump and return as JSON.
+    print(user)
+    success_msg = f"User with id {user_id} retrieved."
 
-    return jsonify(
-        data=data,
-        status=200
-    ), 200
+    return success_msg, 200
 
 
 @user_blueprint.route("/api/user/<int:user_id>", methods=["PATCH"])
@@ -99,13 +93,9 @@ def user_partial_update(user_id):
 
         user = db.session.query(User).filter_by(id=user_id).first()
 
-        schema = UserSchema(many=False)
-        data = schema.dump(user)
-
-        return jsonify(
-            data=data,
-            status=200
-        ), 200
+        # TODO: Replace with schema dump and return as JSON.
+        success_msg = f"User with ID {user.id} updated."
+        return success_msg, 200
 
     except ValueError:
         error_msg = "Error referencing columns with provided keys." \

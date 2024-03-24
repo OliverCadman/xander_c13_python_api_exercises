@@ -1,17 +1,11 @@
-from app.serializer import ma
-from app.models.user import User
-from app.schemas.post_schema import PostSchema
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+"""
+Import your User model and SQLAlchemyAutoSchema from marshmallow_sqlalchemy
 
+Import your Marshmallow object from serializr.py
+Import PostSchema to create nested field of posts.
+"""
 
-class UserSchema(SQLAlchemyAutoSchema):
+class UserSchema():
     """Serializable schema for the User SQLAlchemy object."""
 
-    class Meta:
-        # Provide the User model to serialize.
-        model = User
-
-        # Define the fields which will be in the output when User model is serialized.
-        fields = ("id", "name", "username", "email", "phone", "posts")
-
-    posts = ma.Nested(PostSchema, many=True)
+    pass
