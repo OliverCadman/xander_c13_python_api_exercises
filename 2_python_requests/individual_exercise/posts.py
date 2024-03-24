@@ -2,7 +2,7 @@
 In this exercise, you are tasked with making GET, POST, PUT, PATCH 
 and DELETE requests to the post resource of the JSON Placeholder API. 
 
-You should think about how they could guard against repeated logic.
+You should think about guarding against repeated logic.
 When working through your solution, remain aware of any points in which
 you are writing repeating logic. Those situations are perfect for re-factoring 
 into functions! 
